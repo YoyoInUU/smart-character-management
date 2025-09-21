@@ -22,9 +22,15 @@ void Character::takeDamage(const int amount) {
     cout << name << " takes " << amount << " damage. Health now: " << health << "." << endl;
 }
 
-void Character::heal(const int amount) {
-    health += amount;
-    cout << name << " heals " << amount << " health. Health now: " << health << "." << endl;
+void Character::heal(Character& target, const int amount) {
+    target.health += amount;
+    cout << name << " heals " << target.name << " for " << amount << " health. "
+         << target.name << "'s health now: " << target.health << "." << endl;
+}
+
+void Character::attack(Character& target, const int damage) {
+    cout << name << " attacks " << target.name << " for " << damage << " damage." << endl;
+    target.takeDamage(damage);
 }
 
 // public getters

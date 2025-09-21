@@ -19,7 +19,8 @@ class Character {
 
     // public member functions
     void takeDamage(const int amount);
-    void heal(const int amount);
+    void heal(Character& target, const int amount);
+    void attack(Character& target, const int damage);
 
     // public getter
     const string& getName() const;

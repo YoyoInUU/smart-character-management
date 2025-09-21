@@ -7,18 +7,23 @@ using namespace std;
 
 void sharedPointerMode() {
     // create a character using `std::shared_ptr`
-    auto character = std::make_shared<Character>("Yoyo", 100);
+    auto heroYoyo = make_shared<Character>("Yoyo", 100);
+    auto heroYee = make_shared<Character>("Yee", 100);
+    auto monster = make_shared<Character>("Monster", 100);
 
     // character data shared among different modules
-    std::shared_ptr<Character> module1 = character;
-    std::shared_ptr<Character> module2 = character;
+    shared_ptr<Character> moduleYoyo = heroYoyo;
+    shared_ptr<Character> moduleMonster = monster;
 
     // module actions
-    attack(module1, 30);
-    heal(module2, 20);
+    heroYoyo->attack(*moduleMonster, 30);
+    monster->attack(*moduleYoyo, 30);
+    heroYee->heal(*moduleYoyo, 20);
 
     // display current health
-    cout << "Character " << character->getName() << " has " << character->getHealth() << " health." << endl;
+    cout << "Character " << heroYoyo->getName() << " has " << heroYoyo->getHealth() << " health." << endl;
+    cout << "Character " << heroYee->getName() << " has " << heroYee->getHealth() << " health." << endl;
+    cout << "Character " << monster->getName() << " has " << monster->getHealth() << " health." << endl;
 
     // after leaving scope, module1 and module2 are destroyed,
     // but the character is still alive due to `character` holding it
@@ -28,19 +33,26 @@ void sharedPointerMode() {
 
 void uniquePointerMode() {
     // create a character using `std::unique_ptr`
-    auto character = std::make_unique<Character>("Yoyo", 100);
+    auto heroYoyo = make_unique<Character>("Yoyo", 100);
+    auto heroYee = make_unique<Character>("Yee", 100);
+    auto monster = make_unique<Character>("Monster", 100);
 
     // character data passed by reference
-    attack(character, 30);
-    heal(character, 20);
+    heroYoyo->attack(*monster, 30);
+    monster->attack(*heroYoyo, 30);
+    heroYee->heal(*heroYoyo, 20);
 
     // display current health
-    cout << "Character " << character->getName() << " has " << character->getHealth() << " health." << endl;
+    cout << "Character " << heroYoyo->getName() << " has " << heroYoyo->getHealth() << " health." << endl;
+    cout << "Character " << heroYee->getName() << " has " << heroYee->getHealth() << " health." << endl;
+    cout << "Character " << monster->getName() << " has " << monster->getHealth() << " health." << endl;
 
     // transfer ownership of the character to newOwner
-    auto newOwner = std::move(character);
-    if (!character) {
-        std::cout << "Character ownership has been transferred to newOwner." << endl;
+    auto newOwnerYoyo = move(heroYoyo);
+    auto newOwnerYee = move(heroYee);
+    auto newOwnerMonster = move(monster);
+    if (!heroYoyo && !heroYee && !monster) {
+        cout << "Character ownership has been transferred to newOwner." << endl;
     }
 }
 
