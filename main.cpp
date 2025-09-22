@@ -2,6 +2,7 @@
 
 #include "character.h"
 #include "modules.h"
+#include "skill.h"
 
 using namespace std;
 
@@ -38,9 +39,9 @@ void uniquePointerMode() {
     auto monster = make_unique<Character>("Monster", 100);
 
     // character data passed by reference
-    heroYoyo->attack(*monster, 30);
-    monster->attack(*heroYoyo, 30);
-    heroYee->heal(*heroYoyo, 20);
+    heroYoyo->useSkill(Skill::Fireball, *monster);
+    monster->useSkill(Skill::Unknown, *heroYoyo);
+    heroYee->useSkill(Skill::Supplement, *heroYoyo);
 
     // display current health
     cout << "Character " << heroYoyo->getName() << " has " << heroYoyo->getHealth() << " health." << endl;

@@ -33,6 +33,23 @@ void Character::attack(Character& target, const int damage) {
     target.takeDamage(damage);
 }
 
+void Character::useSkill(Skill skill, Character& target) {
+    auto it = skillMap.find(skill);
+    SkillEffect data = it->second;
+
+    cout << name << " uses skill on " << target.name << "." << endl;
+
+    switch (data.type) {
+    case SkillType::Attack:
+        target.takeDamage(data.amount);
+        break;
+
+    case SkillType::Heal:
+        target.heal(target, data.amount);
+        break;
+    }
+}
+
 // public getters
 const string& Character::getName() const {
     return name;

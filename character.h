@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "skill.h"
+
 using namespace std;
 
 class Character {
@@ -21,8 +23,9 @@ class Character {
     void takeDamage(const int amount);
     void heal(Character& target, const int amount);
     void attack(Character& target, const int damage);
+    void useSkill(Skill skill, Character& target);
 
-    // public getter
+    // public getters
     const string& getName() const;
     int getHealth() const;
 };
