@@ -17,9 +17,12 @@ void sharedPointerMode() {
     shared_ptr<Character> moduleMonster = monster;
 
     // module actions
-    heroYoyo->attack(*moduleMonster, 30);
-    monster->attack(*moduleYoyo, 30);
-    heroYee->heal(*moduleYoyo, 20);
+    heroYoyo->setTarget(moduleMonster);
+    heroYoyo->attackTarget(30);
+    monster->setTarget(moduleYoyo);
+    monster->attackTarget(30);
+    heroYee->setTarget(moduleYoyo);
+    heroYee->healTarget(20);
 
     // display current health
     cout << "Character " << heroYoyo->getName() << " has " << heroYoyo->getHealth() << " health." << endl;

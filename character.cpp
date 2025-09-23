@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include <string>
 
 #include "character.h"
@@ -50,6 +51,25 @@ void Character::useSkill(Skill skill, Character& target) {
     }
 }
 
+// manage target via a `std::weak_ptr` observing a `std::shared_ptr`
+void Character::attackTarget(const int amount) {
+    if (auto t = target.lock()) { // transfer `std::weak_ptr` to `std::shared_ptr`
+        cout << name << " attacks " << t->getName() << ", dealing " << amount << " damage." << endl;
+        t->takeDamage(amount);
+    } else {
+        cout << name << " has no valid target!" << endl;
+    }
+}
+
+void Character::healTarget(const int amount) {
+    if (auto t = target.lock()) { // transfer `std::weak_ptr` to `std::shared_ptr`
+        cout << name << " heals " << t->getName() << " for " << amount << " health." << endl;
+        t->heal(*t, amount);
+    } else {
+        cout << name << " has no valid target!" << endl;
+    }
+}
+
 // public getters
 const string& Character::getName() const {
     return name;
@@ -57,4 +77,9 @@ const string& Character::getName() const {
 
 int Character::getHealth() const {
     return health;
+}
+
+// public setters
+void Character::setTarget(weak_ptr<Character> target) {
+    this->target = target;
 }
